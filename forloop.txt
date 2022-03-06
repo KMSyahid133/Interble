@@ -1,0 +1,21 @@
+the control variable will be stored at 20 meanwhile the boolean variable will stored at 10
+
+0002:&20; load variable
+0003:#0; starting variable
+
+0004:#9; jump code so the increment and checking 
+
+0005:&20; increment by 1
+0002:&10; load the boolean variable
+0003:&20; overide the current to whatever is in &20
+000B:#50; compare it with moe
+
+000E:#13; if false then exit to the last line
+
+0000:&20; write out the current number
+0000:x0A;
+
+0002:&20;
+0004:#4;
+
+0000:x0A;
