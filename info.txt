@@ -1,0 +1,68 @@
+Intorduction:
+    This is a esolang that doesn't work with lines, but with order code. 
+    
+    Example:
+
+1   |   0000:x61; [This wirtes out 'a' and the order code is 1]
+2   |   
+3   |
+4   |   0000:x62 [This writes out 'b' and the order code is 2]
+5   |   0003:#1 [This has the order code of 3, this jump to order code 1, thus making a loop]
+6   |
+7   |
+8   |
+9   |
+10  |   
+
+Syntax:
+
+Comments:
+    To use comments, wrap the text around square brackets
+    Example:
+        [This is a command and will be ignored by the interpreter]
+
+Code:
+    The code syntax is simple, 4 character of hex followed by a colon,specifier and then value
+    Command:SpecifierValue;
+    Specifier:
+        '&': value is a variable address
+        'x': is a char value
+        '#': is a number value
+    Example:
+        
+
+
+Commands:
+    0000: print                     args: any
+
+    0001: input                     args: &
+
+    0002: load                      args: &
+
+    0003: save                      args: any
+
+    0004: jump                      args: #
+
+    0005: increment                 args: &
+
+    0006: decrement                 args: &
+
+    (These comaprison operator override the current loaded variable)
+    0007: equality                  args: #         
+        compare the current variable to the current # arg
+
+    0008: not equal                 args: #         
+        compare the current variable to the current # arg
+
+    0009: more than                 args: #         
+        compare the current variable to the current # arg
+
+    000A: less than                 args: #         
+        compare the current variable to the current # arg
+
+    000B: less than or equal        args: #
+
+    000C: more than or equal        args: #
+
+    000D: wait                      args: #
+        wait # seconds
