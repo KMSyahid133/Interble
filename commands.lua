@@ -71,30 +71,70 @@ local commands = {
         orderCode = orderCode + 1
     end,
     --Jump
-    ["0004"] = function(speicfier, number, codeNumber)
+    ["0004"] = function(specifier, number, codeNumber)
         orderCode = number
     end,
     --Increment
-    ["0005"] = function(speicfier, number, codeNumber)
+    ["0005"] = function(specifier, number, codeNumber)
 
         variables[number] = variables[number] + 1
         orderCode = orderCode + 1
     end,
     --Decrement
-    ["0006"] = function(speicfier, number, codeNumber)
+    ["0006"] = function(specifier, number, codeNumber)
         variables[number] = variables[number] + 1
         orderCode = orderCode + 1
     end,
     --Equality operator
-    ["0007"] = function(speicfier, number, codeNumber)
+    ["0007"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
         local result = (number == variableValue)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
     end,
+    --Not equal to
+    ["0008"] = function(specifier, number, codeNumber)
+        local variableValue = variables[currentPointer]
+        local result = (number ~= variableValue)
 
-    ["000D"] = function(speicfier, number, codeNumber)
+        variables[currentPointer] = result
+        orderCode = orderCode + 1
+    end,
+    --More than
+    ["0009"] = function(specifier, number, codeNumber)
+        local variableValue = variables[currentPointer]
+        local result = (number > variableValue)
+
+        variables[currentPointer] = result
+        orderCode = orderCode + 1
+    end,
+    --Less than
+    ["000A"] = function(specifier, number, codeNumber)
+        local variableValue = variables[currentPointer]
+        local result = (number < variableValue)
+
+        variables[currentPointer] = result
+        orderCode = orderCode + 1
+    end,
+    --Less or equal to
+    ["000B"] = function(specifier, number, codeNumber)
+        local variableValue = variables[currentPointer]
+        local result = (number <= variableValue)
+
+        variables[currentPointer] = result
+        orderCode = orderCode + 1
+    end,
+    --More or equal to
+    ["000C"] = function(specifier, number, codeNumber)
+        local variableValue = variables[currentPointer]
+        local result = (number >= variableValue)
+
+        variables[currentPointer] = result
+        orderCode = orderCode + 1
+    end,
+    --Sleep
+    ["000D"] = function(specifier, number, codeNumber)
         mainModule.sleep(number)
         orderCode = orderCode + 1
     end
