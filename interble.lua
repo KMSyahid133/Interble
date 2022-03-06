@@ -3,6 +3,8 @@ local validCommand = require("commands")
 
 local project = {}
 
+--Original pattern: "[%d%p0x%x%p]+"
+--New pattern:
 local pattern = "%x%x%x%x:[x&#][0-9a-fA-F]+;"
 --local pattern2 = "%x%x%x%x:&[0-9a-fA-F]+;"
 
@@ -15,9 +17,6 @@ local validSyntax = function(foo)
      return false
 end
 
-
---Original pattern: "[%d%p0x%x%p]+"
---New pattern
 
 
 local function cleanUp(str)
@@ -48,12 +47,19 @@ function project.execute(fileName)
         local command = current[1]
         local value = current[2]
 
-        local speicfier = string.sub(value, 1, 1)
-        local number = tonumber("0x"..string.sub(value, 2, string.len(value) - 1))
+        local specifier = string.sub(value, 1, 1)
+
+        local number = 0
+            
+        if specifier == "#" then
+            number = tonumber(string.sub(value, 2, string.len(value) - 1))
+        else
+            number = tonumber("0x"..string.sub(value, 2, string.len(value) - 1))
+        end
         --print(v)
         --print(v)
         if validCommand[command] then
-            validCommand[command](speicfier, number, i)
+            validCommand[command](specifier, number, i)
         else
             error(string.format("ERROR: Command %i is not valid", command))
         end

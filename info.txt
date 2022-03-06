@@ -28,6 +28,7 @@ Code:
         '&': value is a variable address
         'x': is a char value
         '#': is a number value
+        'h': is a hexadecimal value
     Example:
         
 
@@ -47,22 +48,28 @@ Commands:
 
     0006: decrement                 args: &
 
-    (These comaprison operator override the current loaded variable)
-    0007: equality                  args: #         
+    These comparison operator override the current loaded variable
+    The number will be compared to loaded variable, like this
+    (loadedVariable [op] arg) (10 > FF)
+    
+    0007: equality                  args: #    (==)     
         compare the current variable to the current # arg
 
-    0008: not equal                 args: #         
+    0008: not equal                 args: #    (!= or ~=)
         compare the current variable to the current # arg
 
-    0009: more than                 args: #         
+    0009: more than                 args: #     (>)    
         compare the current variable to the current # arg
 
-    000A: less than                 args: #         
+    000A: less than                 args: #     (<)
         compare the current variable to the current # arg
 
-    000B: less than or equal        args: #
+    000B: less than or equal        args: #     (<=)
 
-    000C: more than or equal        args: #
+    000C: more than or equal        args: #     (>=)
 
     000D: wait                      args: #
         wait # seconds
+
+    000E: if statement              args: #
+        if the current loaded variable is true, then it will continue, else it will go to order code #

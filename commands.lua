@@ -1,5 +1,10 @@
 local mainModule = require("interblelib")
 
+local hex = "h"
+local char = "x"
+local decimal = "#"
+local address = "&"
+
 local foo = (function()
     local t={}
     for i = 1, tonumber(0xFFFF), 1 do
@@ -25,7 +30,7 @@ local commands = {
         local output = 0;
 
         if speicfier == "#" then
-            output = variables[number]
+            output = number
         elseif speicfier == "x"  then
             output = string.char(number)
         elseif speicfier == "&"  then
@@ -55,19 +60,22 @@ local commands = {
 
         orderCode = orderCode + 1
     end,
-    --Override the current loaded variable
+    --Save
+    --abt: Override the current loaded variable
     ["0003"] = function(speicfier, number, codeNumber)
         local newValue = nil
 
-        if speicfier == "#" then
+        if speicfier == hex or speicfier == decimal then
             newValue = tonumber(number)
-        elseif speicfier == "x" then
+        elseif speicfier == char then
             newValue = string.char(number)
+        elseif speicfier == address then
+            newValue = variables[number]
         end
         --print(currentPointer)
         --print(type(newValue))
         variables[currentPointer] = newValue
-        print(type(variables[currentPointer]))
+        --print(type(variables[currentPointer]))
         orderCode = orderCode + 1
     end,
     --Jump
@@ -88,7 +96,7 @@ local commands = {
     --Equality operator
     ["0007"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number == variableValue)
+        local result = (variableValue == number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -96,7 +104,7 @@ local commands = {
     --Not equal to
     ["0008"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number ~= variableValue)
+        local result = (variableValue ~= number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -104,7 +112,7 @@ local commands = {
     --More than
     ["0009"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number > variableValue)
+        local result = (variableValue > number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -112,7 +120,7 @@ local commands = {
     --Less than
     ["000A"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number < variableValue)
+        local result = (variableValue < number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -120,7 +128,7 @@ local commands = {
     --Less or equal to
     ["000B"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number <= variableValue)
+        local result = (variableValue <= number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -128,7 +136,7 @@ local commands = {
     --More or equal to
     ["000C"] = function(specifier, number, codeNumber)
         local variableValue = variables[currentPointer]
-        local result = (number >= variableValue)
+        local result = (variableValue >= number)
 
         variables[currentPointer] = result
         orderCode = orderCode + 1
@@ -137,6 +145,20 @@ local commands = {
     ["000D"] = function(specifier, number, codeNumber)
         mainModule.sleep(number)
         orderCode = orderCode + 1
+    end,
+    ["000E"] = function(specifier, number, codeNumber)
+        local value = variables[currentPointer]
+
+        if string.match(type(value), "boolean") then
+            if not value then
+                orderCode = number
+            else
+                orderCode = orderCode + 1
+            end
+        else
+            error(string.format("I WANT BOOLEAN NOT %s", type(value)))
+        end
+
     end
 }
 
