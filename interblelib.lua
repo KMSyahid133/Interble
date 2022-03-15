@@ -10,6 +10,8 @@ function lib.input()
         --print(userIn)
     end
 
+    --print(userIn)
+
     return userIn
 end
 

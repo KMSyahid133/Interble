@@ -35,41 +35,72 @@ Code:
 
 Commands:
     0000: print                     args: any
+        write the arg out to the output
 
     0001: input                     args: &
-
-    0002: load                      args: &
-
-    0003: save                      args: any
-
+        get user input and store it at &arg
+    0002: load                      args: & 
+        change the pointer to &arg
+    0003: save                      args: any 
+        override the current loaded variable to arg
     0004: jump                      args: #
-
+        change the current code index to #arg
     0005: increment                 args: &
-
+        increment the &arg number by 1
     0006: decrement                 args: &
+        decrement the &arg number by 1
 
-    These comparison operator override the current loaded variable
-    The number will be compared to loaded variable, like this
-    (loadedVariable [op] arg) (10 > FF)
-    
+    Comparison operator
+        override the current laoded variable with the boolean result
+        loadedVariable <op> arg
+
     0007: equality                  args: #    (==)     
-        compare the current variable to the current # arg
+        loadedVariable == arg
 
     0008: not equal                 args: #    (!= or ~=)
-        compare the current variable to the current # arg
+        loadedVariable != arg
 
     0009: more than                 args: #     (>)    
-        compare the current variable to the current # arg
+        loadedVariable > arg
 
     000A: less than                 args: #     (<)
-        compare the current variable to the current # arg
+        loadedVariable < arg
 
     000B: less than or equal        args: #     (<=)
+        loadedVariable <= arg
 
     000C: more than or equal        args: #     (>=)
+        loadedVariable >= arg
+
 
     000D: wait                      args: #
         wait # seconds
 
     000E: if statement              args: #
         if the current loaded variable is true, then it will continue, else it will go to order code #
+
+
+    Arithmetic operations
+        override the current loaded variable with the arithmetic result
+        loadedVariable <op> arg
+
+    000F: Addtion                   args: # | & | h
+        loadedVariable + arg
+
+    0010: Subtraction               args: # | & | h
+        loadedVariable - arg
+
+    0011: Multiplication            args: # | & | h
+        loadedVariable * arg
+
+    0012: Division                  args: # | & | h
+        loadedVariable / arg
+
+    0013: Modulo                    args: # | & | h
+        loadedVariable % arg
+
+    0014: Exponent                  args: # | & | h
+        loadedVariable ^ arg
+
+
+        

@@ -29,15 +29,15 @@ local commands = {
     ["0000"] = function(speicfier, number, codeNumber)
         local output = 0;
 
-        if speicfier == "#" then
+        if speicfier == hex or speicfier == decimal then
             output = number
-        elseif speicfier == "x"  then
+        elseif speicfier == char  then
             output = string.char(number)
-        elseif speicfier == "&"  then
+        elseif speicfier == address  then
             output = variables[number];
             
         end
-        output = tostring(output)
+        output = tostring(output) 
         io.write(output)
         orderCode = orderCode + 1
     end,
@@ -95,9 +95,10 @@ local commands = {
     end,
     --Equality operator
     ["0007"] = function(specifier, number, codeNumber)
-        local variableValue = variables[currentPointer]
+        --print("Num: "..number.." Order: "..orderCode)
+        local variableValue = tonumber(variables[currentPointer])
         local result = (variableValue == number)
-
+        
         variables[currentPointer] = result
         orderCode = orderCode + 1
     end,
@@ -146,10 +147,12 @@ local commands = {
         mainModule.sleep(number)
         orderCode = orderCode + 1
     end,
+    --if statement
     ["000E"] = function(specifier, number, codeNumber)
         local value = variables[currentPointer]
 
         if string.match(type(value), "boolean") then
+            --print(value)
             if not value then
                 orderCode = number
             else
@@ -159,6 +162,10 @@ local commands = {
             error(string.format("I WANT BOOLEAN NOT %s", type(value)))
         end
 
+    end,
+    --Addition
+    ["000F"] = function(specifier, number, codeNumber)
+        
     end
 }
 

@@ -1,0 +1,27 @@
+0000:x49; 
+0000:x4E; 
+0000:x50; 
+0000:x55; 
+0000:x54; 
+0000:x3A;   
+0000:x20;   "INPUT: "
+0001:&10;   Get input and save it at &10
+0002:&20;   Load &20
+0003:&10;   Save value at &10 to &20
+0007:#0;    Override &20 with boolean
+0002:&30;   Load &30
+0003:&10;   Save value at &10 to &30
+0007:#1;    Override &30 with boolean
+0002:&20;   Load &20
+000E:#20;   test if its 0 else jump to 20
+    0000:#0;    write 0 if its 0
+    0000:x0A;   write newline
+    0004:#1;
+0002:&30;   Load &30
+000E:#25;   test if its 1 else jump to 25
+    0000:#1;    write 1
+    0000:x0A;   write newline
+    0004:#22;   jump to 22
+0000:x0A;   write newline
+0004:#1;    jump to 1 
+

@@ -5,16 +5,16 @@ local project = {}
 
 --Original pattern: "[%d%p0x%x%p]+"
 --New pattern:
-local pattern = "%x%x%x%x:[x&#][0-9a-fA-F]+;"
+local pattern = "%x%x%x%x:[x&#c][0-9a-fA-F]+;"
 --local pattern2 = "%x%x%x%x:&[0-9a-fA-F]+;"
 
 
-local validSyntax = function(foo)
+local valid = function(foo)
     --print(foo)
-     if string.match(foo, pattern) then
-         return true
-     end
-     return false
+    if validCommand[string.sub(foo, 1, 4)] then
+        return true
+    end
+    return false
 end
 
 
@@ -22,15 +22,28 @@ end
 local function cleanUp(str)
     --print(str)
     local code = ""
-
+    local count = 1
     for foo in string.gmatch(str, pattern) do
-        --print(foo)
-        --if validSyntax(foo) then
-        code = code..foo.."\n"
+        count = count + 1
+        if valid(foo) then
+            code = code..foo.."\n"
+        else
+            error(string.format("ERROR: Command %s at %i is not valid", foo, count))
+        end
         --end
     end
 
     return code
+end
+
+function project.getLength(fileName)
+    local str = lib.readFile(fileName)
+    local count = 0
+    for foo in string.gmatch(str, pattern) do
+        count = count + 1
+    end
+
+    return count
 end
 
 function project.execute(fileName)
@@ -56,13 +69,13 @@ function project.execute(fileName)
         else
             number = tonumber("0x"..string.sub(value, 2, string.len(value) - 1))
         end
-        --print(v)
-        --print(v)
+
         if validCommand[command] then
             validCommand[command](specifier, number, i)
         else
             error(string.format("ERROR: Command %i is not valid", command))
         end
+
     end
 end
 
